@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f2ea">
+<title>MNOP Remote Companion</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#182238;background:#f6f2ea}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#fff8f4,#f6f2ea 46%,#edf1f6)}button,input,textarea{font:inherit}.wrap{max-width:760px;margin:auto;padding:22px 14px 48px}.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}.ey{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9a7068;font-weight:800}.title{font-size:33px;font-weight:900;line-height:1.05;margin:5px 0}.sub{color:#6b7280;font-size:14px}.pill{background:#fff;padding:8px 11px;border-radius:999px;box-shadow:0 5px 18px #0001;font-size:13px;font-weight:800;white-space:nowrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#94a3b8;margin-right:6px}.dot.on{background:#22c55e;box-shadow:0 0 0 4px #22c55e22}.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:13px}@media(max-width:620px){.grid{grid-template-columns:1fr}}.card{background:#ffffffdd;border:1px solid #fff;border-radius:23px;padding:17px;box-shadow:0 12px 32px #52607514}.card h2{font-size:15px;margin:0 0 11px}textarea{width:100%;min-height:108px;border:1px solid #dce3ec;border-radius:16px;padding:13px;resize:vertical;background:#fff;color:#111827}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:14px;background:#172554;color:#fff;padding:12px 15px;font-weight:850;cursor:pointer}.btn:disabled{opacity:.5}.gift{border:1px solid #dce3ec;background:#fff;border-radius:14px;width:52px;height:48px;font-size:23px;cursor:pointer}.muted{color:#6b7280;font-size:13px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{background:#f8fafc;border-radius:15px;padding:11px}.stat b{display:block;font-size:18px;margin-top:2px}.history{margin-top:13px}.event{display:flex;gap:10px;padding:10px 1px;border-bottom:1px solid #edf0f4}.event:last-child{border-bottom:0}.ico{width:34px;height:34px;border-radius:11px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.main{flex:1;min-width:0}.txt{font-size:14px;word-break:break-word}.meta{font-size:11px;color:#94a3b8;margin-top:3px}.gate{position:fixed;inset:0;background:#0f172acc;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.panel{max-width:410px;width:100%;background:#fff;border-radius:23px;padding:21px}.panel input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:13px;margin:10px 0}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:999px;padding:10px 14px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}.toast.show{opacity:1}.tiny{font-size:11px;color:#94a3b8;margin-top:8px}.danger{background:#fff0f0;color:#991b1b;padding:9px 11px;border-radius:12px;font-size:12px;margin-top:10px;display:none}.danger.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div><div class="ey">Remote Companion</div><div class="title">MNOP Pocket Pet</div><div class="sub">Send messages & gifts from anywhere</div></div>
+    <div class="pill"><span id="dot" class="dot"></span><span id="online">Checking...</span></div>
+  </div>
+  <div class="grid">
+    <section class="card">
+      <h2>Send a message 💌</h2>
+      <textarea id="msg" maxlength="180" placeholder="Write something for MNOP..."></textarea>
+      <div class="row" style="margin-top:9px"><button id="send" class="btn">SEND MESSAGE</button><span class="muted"><span id="count">0</span>/180</span></div>
+      <h2 style="margin-top:20px">Send a gift</h2>
+      <div class="row"><button class="gift" data-gift="heart" title="Heart">❤️</button><button class="gift" data-gift="snack" title="Snack">🍪</button><button class="gift" data-gift="ball" title="Ball">⚽</button></div>
+      <div id="apierr" class="danger"></div>
+    </section>
+    <section class="card">
+      <h2>Last reply</h2><div id="reply" style="font-size:26px;font-weight:900;min-height:36px">—</div><div id="replytime" class="muted">No reply yet</div>
+      <h2 style="margin-top:20px">Pet now</h2>
+      <div class="stats"><div class="stat"><span class="muted">Form</span><b id="form">—</b></div><div class="stat"><span class="muted">Mood</span><b id="mood">—</b></div><div class="stat"><span class="muted">Battery</span><b id="bat">—</b></div><div class="stat"><span class="muted">Unread</span><b id="unread">—</b></div></div>
+      <div id="seen" class="tiny">Last seen —</div>
+    </section>
+  </div>
+  <section class="card history"><h2>Recent activity</h2><div id="hist"><div class="muted">Loading...</div></div></section>
+</div>
+<div id="gate" class="gate"><div class="panel"><div class="ey">Owner access</div><h2 style="margin:6px 0">Open MNOP Remote</h2><div class="muted">Enter your Owner Token once. It stays only in this browser.</div><input id="token" type="password" autocomplete="off" placeholder="mnop_admin_..."><button id="save" class="btn" style="width:100%">OPEN REMOTE</button><div class="tiny">Your Owner Token is stored only in this browser.</div></div></div>
+<div id="toast" class="toast"></div>
+<script>
+const API='https://fdeqqcpdyjrvetgnssvv.supabase.co/functions/v1/mnop-remote';
+const device='mnop-main',$=id=>document.getElementById(id);let tok=localStorage.getItem('mnop_owner_token')||'';
+const esc=s=>String(s??'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const fmt=t=>t?new Date(t).toLocaleString([], {dateStyle:'short',timeStyle:'short'}):'—';
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
+function errorBox(t=''){$('apierr').textContent=t;$('apierr').classList.toggle('show',!!t)}
+async function api(action,opt={}){const r=await fetch(API+'?action='+encodeURIComponent(action),{...opt,headers:{'content-type':'application/json','x-mnop-token':tok,'x-device-key':device,...(opt.headers||{})}});const j=await r.json().catch(()=>({}));if(r.status===401){localStorage.removeItem('mnop_owner_token');tok='';$('gate').classList.remove('hidden');throw new Error('Owner token rejected')}if(!r.ok)throw new Error(j.error||('Request failed ('+r.status+')'));return j}
+function icon(e){if(e.kind==='message')return '💌';if(e.kind==='reply')return '↩️';const g=e.payload?.gift;return g==='heart'?'❤️':g==='snack'?'🍪':'⚽'}
+function text(e){if(e.kind==='message')return e.payload?.text||'Message';if(e.kind==='reply')return 'Reply: '+(e.payload?.reply||'');return 'Gift: '+(e.payload?.gift||'')}
+async function refresh(){try{errorBox();const s=await api('status');$('dot').classList.toggle('on',!!s.online);$('online').textContent=s.online?'Online':'Offline';$('reply').textContent=s.last_reply||'—';$('replytime').textContent=s.last_reply_at?fmt(s.last_reply_at):'No reply yet';const p=s.pet||{};$('form').textContent=p.form||p.character||p.name||'—';$('mood').textContent=p.mood||'—';$('bat').textContent=p.battery!=null?p.battery+'%':'—';$('unread').textContent=p.unread===true?'YES':p.unread===false?'NO':'—';$('seen').textContent='Last seen '+fmt(s.last_seen_at);const h=await api('history');$('hist').innerHTML=(h.events||[]).map(e=>'<div class="event"><div class="ico">'+icon(e)+'</div><div class="main"><div class="txt">'+esc(text(e))+'</div><div class="meta">'+(e.direction==='to_device'?'You → MNOP':'MNOP → You')+' · '+fmt(e.created_at)+' · '+esc(e.state)+'</div></div></div>').join('')||'<div class="muted">No activity yet.</div>'}catch(e){console.error(e);errorBox(e.message)}}
+$('msg').oninput=()=>{$('count').textContent=$('msg').value.length};
+$('send').onclick=async()=>{const t=$('msg').value.trim();if(!t)return toast('Write a message first');$('send').disabled=true;try{await api('send',{method:'POST',body:JSON.stringify({kind:'message',text:t})});$('msg').value='';$('count').textContent='0';toast('Message sent 💌');await refresh()}catch(e){toast(e.message)}finally{$('send').disabled=false}};
+document.querySelectorAll('.gift').forEach(b=>b.onclick=async()=>{try{await api('send',{method:'POST',body:JSON.stringify({kind:'gift',gift:b.dataset.gift})});toast('Gift sent '+b.textContent);await refresh()}catch(e){toast(e.message)}});
+$('save').onclick=()=>{tok=$('token').value.trim();if(!tok)return;localStorage.setItem('mnop_owner_token',tok);$('gate').classList.add('hidden');refresh()};
+if(tok){$('gate').classList.add('hidden');refresh()}setInterval(()=>{if(tok)refresh()},10000);
+</script>
+</body></html>
